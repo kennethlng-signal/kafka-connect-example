@@ -54,7 +54,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
   connect:
-    image: kennethlng/kafka-connect-snowflake-sink:1.0.0
+    image: kennethlng/kafka-connect:1.0.0
     build:
       context: .
       dockerfile: Dockerfile
