@@ -8,12 +8,12 @@ This is based on the [Confluent Platform quickstart](https://docs.confluent.io/p
 
 To create the custom Kafka Connect image, I followed the guide for "[extending Confluent Platform images](https://docs.confluent.io/platform/current/installation/docker/development.html#extend-cp-images)". The Dockerfile contains the code for extending the Kafka Connect image and installing the Snowflake connector.
 
-The connector is enabled in `connect` in the Docker Compose file.
+The connector is enabled and built in `connect` in the Docker Compose file.
 
 ```
 services:
   connect:
-    image: kennethlng/kafka-connect-snowflake-sink:1.0.0
+    image: kennethlng/kafka-connect:1.0.0
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,6 +22,18 @@ services:
 The Docker Compose file will automatically build out the image.
 
 The rest of the fields are untouched from the original Docker Compose file in the Quickstart project.
+
+### Install additional plugins
+
+If you want to install additional plugins and connectors to the Kafka Connect image, open the Dockerfile and include additional `confluent-hub install` commands, like this:
+
+```
+FROM confluentinc/cp-kafka-connect:latest
+
+RUN   confluent-hub install --no-prompt hpgrahsl/kafka-connect-mongodb:1.1.0 \
+   && confluent-hub install --no-prompt microsoft/kafka-connect-iothub:0.6 \
+   && confluent-hub install --no-prompt wepay/kafka-connect-bigquery:1.1.0
+```
 
 ### Running the Confluent Platform quickstart app
 
