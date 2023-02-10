@@ -34,11 +34,10 @@ docker-compose up -d
 To verify that the Snowflake connector is available, run:
 
 ```
-# With jq installed
-curl -s localhost:8083/connector-plugins|jq '.[].class'
-
-# Without jq installed
 curl -s localhost:8083/connector-plugins
+
+# With jq installed to format the results in the terminal
+curl -s localhost:8083/connector-plugins|jq '.[].class'
 ```
 
 The [Kafka Connect REST API](https://docs.confluent.io/platform/current/connect/references/restapi.html#kconnect-rest-interface) is the primary interface to the cluster for managing connectors.
@@ -58,6 +57,7 @@ Check the status of the Snowflake sink connector:
 ```
 curl -s "http://localhost:8083/connectors?expand=info&expand=status"
 
+# With jq installed to format the results in the terminal
 curl -s "http://localhost:8083/connectors?expand=info&expand=status" | \
        jq '. | to_entries[] | [ .value.info.type, .key, .value.status.connector.state,.value.status.tasks[].state,.value.info.config."connector.class"]|join(":|:")' | \
        column -s : -t| sed 's/\"//g'| sort
@@ -103,5 +103,7 @@ curl -X DELETE -H "Content-Type: application/vnd.kafka.v2+json" \
 
 ## Resources
 
-- [Confluent demo](https://github.com/confluentinc/demo-scene/tree/master/kafka-connect-zero-to-hero)
+- [Confluent Platform quickstart using Docker](https://docs.confluent.io/platform/current/platform-quickstart.html#quick-start-for-cp)
+- [Kafka Connect Zero to Hero demo](https://github.com/confluentinc/demo-scene/tree/master/kafka-connect-zero-to-hero)
+- [Extending Confluent Platform images](https://docs.confluent.io/platform/current/installation/docker/development.html#extend-cp-images)
 - [Kafka Connect REST API](https://docs.confluent.io/platform/current/connect/references/restapi.html#kconnect-rest-interface)
