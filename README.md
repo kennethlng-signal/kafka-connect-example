@@ -2,6 +2,10 @@
 
 This is based on the [Confluent Platform quickstart](https://docs.confluent.io/platform/current/platform-quickstart.html#quick-start-for-cp). The Docker Compose file is pulled from the [Github repo](https://docs.confluent.io/platform/current/platform-quickstart.html#step-1-download-and-start-cp). Also take a look at Confluent's [Zero to Hero Kafka Connect demo](https://github.com/confluentinc/demo-scene/blob/master/kafka-connect-zero-to-hero/demo_zero-to-hero-with-kafka-connect.adoc).
 
+## Setup
+
+### Building the custom Kafka Connect image
+
 To create the custom Kafka Connect image, I followed the guide for "[extending Confluent Platform images](https://docs.confluent.io/platform/current/installation/docker/development.html#extend-cp-images)". To build the Dockerfile, run:
 
 ```
@@ -25,6 +29,8 @@ services:
 
 The rest of the fields are untouched from the original Docker Compose file in the Quickstart project.
 
+### Running the Confluent Platform quickstart app
+
 To start the container, run:
 
 ```
@@ -41,6 +47,8 @@ curl -s localhost:8083/connector-plugins|jq '.[].class'
 ```
 
 The [Kafka Connect REST API](https://docs.confluent.io/platform/current/connect/references/restapi.html#kconnect-rest-interface) is the primary interface to the cluster for managing connectors.
+
+### Create the Snowflake sink connector
 
 To create the Snowflake sink connector, run:
 
@@ -62,6 +70,10 @@ curl -s "http://localhost:8083/connectors?expand=info&expand=status" | \
        jq '. | to_entries[] | [ .value.info.type, .key, .value.status.connector.state,.value.status.tasks[].state,.value.info.config."connector.class"]|join(":|:")' | \
        column -s : -t| sed 's/\"//g'| sort
 ```
+
+## Demo
+
+### Stream data to Snowflake
 
 Because the REST Proxy container is enabled, we can test this using the Kafka [REST API](https://docs.confluent.io/platform/current/kafka-rest/quickstart.html#produce-and-consume-json-messages) for producing and consuming messages.
 
