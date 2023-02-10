@@ -10,6 +10,8 @@ docker build . -t kennethlng/kafka-connect:1.0.0
 
 If you have the Docker desktop app, you will find the newly built image in the Images tab with the name "kennethlng/kafka-connect".
 
+![screenshot](https://github.com/kennethlng-signal/kafka-connect-example/blob/main/images/Screenshot1.png)
+
 The connector is enabled in `connect` in the Docker Compose file.
 
 ```
