@@ -6,9 +6,9 @@ This is based on the [Confluent Platform quickstart](https://docs.confluent.io/p
 
 ### Building the custom Kafka Connect image
 
-To create the custom Kafka Connect image, I followed the guide for "[extending Confluent Platform images](https://docs.confluent.io/platform/current/installation/docker/development.html#extend-cp-images)". The Dockerfile contains the code for extending the Kafka Connect image and installing the Snowflake connector.
+To install plugins like the Snowflake and Salesforce connectors, we must first extend from an existing Kafka Connect image and then install the plugins we want. To create the custom Kafka Connect image with the Snowflake connector plugin, I followed the guide for "[extending Confluent Platform images](https://docs.confluent.io/platform/current/installation/docker/development.html#extend-cp-images)". The Dockerfile contains the code for extending the Kafka Connect image and installing the Snowflake connector.
 
-The connector is enabled and built in `connect` in the Docker Compose file.
+The image is then enabled and built in the Docker Compose file.
 
 ```
 services:
@@ -19,9 +19,7 @@ services:
       dockerfile: Dockerfile
 ```
 
-The Docker Compose file will automatically build out the image.
-
-The rest of the fields are untouched from the original Docker Compose file in the Quickstart project.
+The rest of the fields in the Docker Compose file are untouched from the original Docker Compose file in the Quickstart project.
 
 ### Install additional plugins
 
@@ -48,15 +46,19 @@ To verify that the Snowflake connector is available, run:
 ```
 curl -s localhost:8083/connector-plugins
 
-# With jq installed to format the results in the terminal
+# If you have `jq` installed, you can run this command to format the results in the terminal
 curl -s localhost:8083/connector-plugins|jq '.[].class'
 ```
 
-The [Kafka Connect REST API](https://docs.confluent.io/platform/current/connect/references/restapi.html#kconnect-rest-interface) is the primary interface to the cluster for managing connectors.
-
 ### Create the Snowflake sink connector
 
+Now that we have the plugins installed, we have to create the Snowflake connector. Similar to Airbyte, this is where we have to pass in the credentials and configurations.
+
+The [Kafka Connect REST API](https://docs.confluent.io/platform/current/connect/references/restapi.html#kconnect-rest-interface) is the primary interface to the cluster for managing connectors.
+
 To create the Snowflake sink connector, run:
+
+<--------EVERYTHING BELOW THIS IS NOT DONE YET--------->
 
 ```
 curl -i -X PUT -H  "Content-Type:application/json" \
@@ -81,7 +83,7 @@ curl -s "http://localhost:8083/connectors?expand=info&expand=status" | \
 
 ### Stream data to Snowflake
 
-Because the REST Proxy container is enabled, we can test this using the Kafka [REST API](https://docs.confluent.io/platform/current/kafka-rest/quickstart.html#produce-and-consume-json-messages) for producing and consuming messages.
+Because the REST Proxy container is enabled, we can test this using the Kafka [REST API](https://docs.confluent.io/platform/current/kafka-rest/quickstart.html#produce-and-consume-json-messages) for producing and consuming messages. We can use the REST API to produce messages that will get streamed to Snowflake.
 
 Produce a message using JSON with the value '{ "foo": "bar" }' to the topic jsontest:
 
