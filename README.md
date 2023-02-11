@@ -1,6 +1,6 @@
 # kafka-connect-example
 
-This is based on the [Confluent Platform quickstart](https://docs.confluent.io/platform/current/platform-quickstart.html#quick-start-for-cp). The Docker Compose file is pulled from the [Github repo](https://docs.confluent.io/platform/current/platform-quickstart.html#step-1-download-and-start-cp). Also take a look at Confluent's [Zero to Hero Kafka Connect demo](https://github.com/confluentinc/demo-scene/blob/master/kafka-connect-zero-to-hero/demo_zero-to-hero-with-kafka-connect.adoc).
+This project starts with the [Confluent Platform quickstart](https://docs.confluent.io/platform/current/platform-quickstart.html#quick-start-for-cp). The Docker Compose includes all the Confluent images needed to start up a Confluent app. pulled from the [Github repo](https://docs.confluent.io/platform/current/platform-quickstart.html#step-1-download-and-start-cp). Also take a look at Confluent's [Zero to Hero Kafka Connect demo](https://github.com/confluentinc/demo-scene/blob/master/kafka-connect-zero-to-hero/demo_zero-to-hero-with-kafka-connect.adoc).
 
 ## Setup
 
