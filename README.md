@@ -24,7 +24,13 @@ ENV CONNECT_PLUGIN_PATH="/usr/share/java,/usr/share/confluent-hub-components"
 RUN confluent-hub install --no-prompt snowflakeinc/snowflake-kafka-connector:1.8.2
 ```
 
-The image is then enabled and built in the Docker Compose file.
+From the terminal, build the image by running:
+
+```
+docker build . -t kennethlng/kafka-connect:1.0.0
+```
+
+The image is then enabled and used in the Docker Compose file.
 
 ```
 services:
